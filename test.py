@@ -8,32 +8,38 @@ message = [
 ]
 time_data = [0, 0]
 current_condition = 100
-start_time = 0
-end_time = 0
-run_time = 0
+start_time = time.time()
+last_print_time = start_time
 
 def main():
-    global current_condition, start_time, end_time, run_time
+    global current_condition, start_time, last_print_time
 
     while True:
         line = ser.readline()
-        condition = line.strip().decode("utf-8")
-        if condition == "":
-            condition = 0
+        condition = line.strip().decode("utf-8").strip()
+        if not condition.isdigit():
+            condition = 1
         else:
             condition = int(condition)
 
         print(message[condition])
-
+# 
         if current_condition != condition:
-            if start_time != 0:
-                end_time = time.time()
-                run_time = end_time - start_time
-                time_data[current_condition] += run_time
-                print(time_data[current_condition])
             current_condition = condition
-            run_time = 0
+            end_time = time.time()
+            run_time = end_time - start_time
+            time_data[current_condition] += run_time
             start_time = time.time()
+
+        current_time = time.time()
+        if current_time - last_print_time >= 30:
+            current_condition = condition
+            end_time = time.time()
+            run_time = end_time - start_time
+            time_data[current_condition] += run_time
+            start_time = time.time()
+            print(time_data)
+            last_print_time = current_time
 
 
 if __name__ == "__main__":
