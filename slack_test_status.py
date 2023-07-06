@@ -4,11 +4,11 @@ with open("token.txt", mode="r", encoding="utf-8") as f:
     SLACK_ACCESS_TOKEN = f.read()
 
 client = WebClient(SLACK_ACCESS_TOKEN)
-channnel_id = "C03PHULJWCD"
+channnel_id = "D04QW3CUPMF"
 
 msg = "hello"
 response = client.users_profile_set(
-    user="U03PE886MM4",
+    user="U04QARV2M2S",
     profile={
 		"status_text": "riding a train",
 		"status_emoji": ":train:",
